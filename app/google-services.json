@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "188976754205",
+    "project_id": "avengersit-1ba64",
+    "storage_bucket": "avengersit-1ba64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188976754205:android:f4755ed4ad95a1757be0f4",
+        "android_client_info": {
+          "package_name": "com.abel.avengerit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188976754205-ebg09d3oosv17kv08nq2uk7lc36ncun5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH93QpgvcfJzom5eostqzdXn5nGZkBu8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188976754205-ebg09d3oosv17kv08nq2uk7lc36ncun5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
