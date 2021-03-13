@@ -17,13 +17,14 @@
         android:layout_height="0dp"
         android:layout_margin="5dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/bar_menu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
         app:navGraph="@navigation/nav_graph" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bar_menu"
         android:layout_width="0dp"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"

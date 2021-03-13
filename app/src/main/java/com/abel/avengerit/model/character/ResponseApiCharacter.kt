@@ -2,7 +2,7 @@ package com.abel.avengerit.model.character
 
 import java.io.Serializable
 
-data class ResponseApiMarvel(
+data class ResponseApiCharacter(
     val attributionHTML: String,
     val attributionText: String,
     val code: Int,

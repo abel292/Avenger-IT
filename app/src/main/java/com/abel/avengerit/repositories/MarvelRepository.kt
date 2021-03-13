@@ -21,4 +21,17 @@ class MarvelRepository(private val marvelApi: MarvelApi) {
     }.catch {
         Log.e(this@MarvelRepository.javaClass.name, "")
     }
+
+    suspend fun getEvents() = flow {
+        val hash = stringToMd5("1${BuildConfig.API_KEY_PRIVATE}${BuildConfig.API_KEY_PUBLIC}")
+        val result = marvelApi.getEvents(BuildConfig.API_KEY_PUBLIC, hash, "1")
+        when (val resultCode = result.body()?.code) {
+            200 -> emit(result.body()?.data?.results)
+            404 -> Log.e(this@MarvelRepository.javaClass.name, "$resultCode")
+            401 -> Log.e(this@MarvelRepository.javaClass.name, "$resultCode")
+            else -> Log.e(this@MarvelRepository.javaClass.name, "ABEL $resultCode")
+        }
+    }.catch {
+        Log.e(this@MarvelRepository.javaClass.name, "")
+    }
 }
