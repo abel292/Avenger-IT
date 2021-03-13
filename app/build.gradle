@@ -6,6 +6,8 @@ plugins {
 }
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 
 android {
     compileSdkVersion 30
@@ -22,6 +24,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", "\"https://gateway.marvel.com\""
+            buildConfigField "String", "API_KEY_PUBLIC", "\"d1d86a8a279cca3768ae12838267b530\""
+            buildConfigField "String", "API_KEY_PRIVATE", "\"c5aed6b748831afebcda8e95a8a4090f3778e3a7\""
+            debuggable true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -99,6 +107,13 @@ dependencies {
     implementation "io.insert-koin:koin-android-ext:3.0.1-beta-1"
     implementation "io.insert-koin:koin-androidx-workmanager:3.0.1-beta-1"
     implementation "io.insert-koin:koin-androidx-compose:3.0.1-beta-1"
+
+    //lottieFiles
+    implementation 'com.airbnb.android:lottie:3.4.4'
+
+    //Material design
+    implementation 'com.android.support:design:28.0.0'
+
 
 
 }

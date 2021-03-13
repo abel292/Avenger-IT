@@ -2,4 +2,12 @@
     <string name="app_name">Avenger IT</string>
     <string name="facebook_app_id">447567286690586</string>
     <string name="fb_login_protocol_scheme">fb447567286690586</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_hay_personajes_cargados">No se pudo cargar la lista de personajes</string>
+    <string name="marvel_challenge">Marvel Challenge</string>
+    <string name="comics_en_los_que_aparece">COMICS EN LOS QUE APARECE</string>
+    <string name="este_personaje_todavia_no_aparecio_en_un_comic">Este personaje todavia no aparecio en un comic</string>
+    <string name="personajes">Personajes</string>
+    <string name="eventos">Eventos</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.abel.avengerit.R
+import com.abel.avengerit.ui.main.MainActivity
 import com.abel.avengerit.utils.showToast
 import com.abel.avengerit.view_models.SessionViewModel
 import com.facebook.AccessToken
@@ -43,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.getUserLoggedIn().observe(this, {
             this.showToast(it?.email.toString() + " Logueado!")
+            goToMain()
         })
     }
 
@@ -59,8 +61,14 @@ class LoginActivity : AppCompatActivity() {
             viewModel.loginUserFirebase(emailInput, passInput)
         }
 
-        buttonFacebook.setOnClickListener {
+        /*buttonFacebook.setOnClickListener {
             viewModel.loginUserFacebook()
-        }
+        }*/
+    }
+
+    private fun goToMain() {
+        val mainActivity by inject<MainActivity>()
+        val intent = Intent(this, mainActivity::class.java)
+        startActivity(intent)
     }
 }
