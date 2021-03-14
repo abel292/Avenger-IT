@@ -13,6 +13,7 @@ import com.abel.avengerit.model.event.Event
 import com.abel.avengerit.ui.base.BaseAdapter
 import com.abel.avengerit.ui.detail_character.ComicsAdapter
 import com.abel.avengerit.utils.OnClickItemListener
+import com.abel.avengerit.utils.changeFormatDate
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 
@@ -56,22 +57,22 @@ class EventAdapter(
     }
 
     //todo Holder
-    class EventViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        var textViewTitleEventItem: TextView = v.findViewById(R.id.textViewTitleEventItem)
-        var textViewDate1: TextView = v.findViewById(R.id.textViewDate1)
-        var textViewDate2: TextView = v.findViewById(R.id.textViewDate2)
-        var textViewTitleComicDisc: TextView = v.findViewById(R.id.textViewTitleComicDisc)
-        var recyclerViewComicsEvent: RecyclerView = v.findViewById(R.id.recyclerViewComicsEvent)
-        var imageViewExpandle: ImageView = v.findViewById(R.id.imageViewExpandle)
-        var imageViewPortEvent: ImageView = v.findViewById(R.id.imageViewPortEvent)
+    class EventViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
+        var textViewTitleEventItem: TextView = view.findViewById(R.id.textViewTitleEventItem)
+        var textViewDate1: TextView = view.findViewById(R.id.textViewDate1)
+        var textViewDate2: TextView = view.findViewById(R.id.textViewDate2)
+        var textViewTitleComicDisc: TextView = view.findViewById(R.id.textViewTitleComicDisc)
+        var recyclerViewComicsEvent: RecyclerView = view.findViewById(R.id.recyclerViewComicsEvent)
+        var imageViewExpandle: ImageView = view.findViewById(R.id.imageViewExpandle)
+        var imageViewPortEvent: ImageView = view.findViewById(R.id.imageViewPortEvent)
 
         fun bind(
             event: Event?,
             onClickListener: OnClickItemListener?
         ) {
             textViewTitleEventItem.text = event?.title
-            textViewDate1.text = event?.start
-            textViewDate2.text = event?.end
+            textViewDate1.text = event?.start?.let { changeFormatDate(it) } ?: ""
+            textViewDate2.text = event?.end?.let { changeFormatDate(it) } ?: ""
 
             Glide.with(itemView.context)
                 .load("${event?.thumbnail?.path}.${event?.thumbnail?.extension}")
@@ -82,7 +83,7 @@ class EventAdapter(
                 .into(imageViewPortEvent)
 
             loadListComics(event)
-            imageViewExpandle.setOnClickListener {
+            view.setOnClickListener {
                 if (event != null) {
                     onClickListener?.onClick()
                 }
@@ -95,11 +96,12 @@ class EventAdapter(
             if (boolean) {
                 textViewTitleComicDisc.visibility = View.VISIBLE
                 recyclerViewComicsEvent.visibility = View.VISIBLE
-                imageViewExpandle.setImageDrawable(itemView.context.getDrawable(R.drawable.ic_flecha_down))
+                imageViewExpandle.setImageDrawable(itemView.context.getDrawable(R.drawable.ic_flecha_up))
+
             } else {
+                imageViewExpandle.setImageDrawable(itemView.context.getDrawable(R.drawable.ic_flecha_down))
                 textViewTitleComicDisc.visibility = View.GONE
                 recyclerViewComicsEvent.visibility = View.GONE
-                imageViewExpandle.setImageDrawable(itemView.context.getDrawable(R.drawable.ic_flecha_up))
 
             }
         }
