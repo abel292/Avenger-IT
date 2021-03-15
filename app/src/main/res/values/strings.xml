@@ -13,7 +13,7 @@
     <string name="password">Contraseña</string>
     <string name="password_repeat">Repite la contraseña</string>
     <string name="entrar">Entrar</string>
-    <string name="registrarse"><u>Crear una cuenta</u></string>
+    <string name="registrarse">Crear cuenta</string>
     <string name="ya_tengo_una"><u>Ya tengo cuenta</u></string>
     <string name="error_login">Ocurrio un error al entrar</string>
     <string name="registered_user_succes">Usuario registrado correctamente!</string>

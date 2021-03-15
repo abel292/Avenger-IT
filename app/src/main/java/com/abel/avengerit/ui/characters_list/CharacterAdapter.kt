@@ -64,7 +64,7 @@ class CharacterAdapter(
         ) {
             textViewTitle.text = character?.name
             textViewTitle.transitionName = character?.name
-            textViewDescripcion.text = character?.description
+            textViewDescripcion.text = if (character?.description.isNullOrEmpty()) "Sin descripcion" else character?.description
 
             Glide.with(itemView.context)
                 .load("${character?.thumbnail?.path}.${character?.thumbnail?.extension}")

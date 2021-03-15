@@ -4,13 +4,11 @@ import android.util.Log
 import com.abel.avengerit.BuildConfig
 import com.abel.avengerit.model.character.Result
 import com.abel.avengerit.model.event.Event
-import com.abel.avengerit.model.local.AppDatabase
-import com.abel.avengerit.model.local.SessionEntity
 import com.abel.avengerit.service.MarvelApi
 import com.abel.avengerit.utils.stringToMd5
 import com.abel.avengerit.view_models.Resourse
 import com.abel.avengerit.view_models.Resourse.Companion.BAD
-import com.abel.avengerit.view_models.Resourse.Companion.LOGIN_SUCCESS
+import com.abel.avengerit.view_models.Resourse.Companion.SUCCESS
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
@@ -25,8 +23,8 @@ class MarvelRepository(
         val result = marvelApi.getCharacters(BuildConfig.API_KEY_PUBLIC, hash, "1")
         when (result.body()?.code) {
             200 -> {
-                resourse.user = result.body()?.data?.results
-                resourse.responseAction = LOGIN_SUCCESS
+                resourse.resourceObject = result.body()?.data?.results
+                resourse.responseAction = SUCCESS
             }
             404 -> {
                 resourse.responseAction = BAD
@@ -51,8 +49,8 @@ class MarvelRepository(
         val result = marvelApi.getEvents(BuildConfig.API_KEY_PUBLIC, hash, "1")
         when (result.body()?.code) {
             200 -> {
-                resourceEvent.user = result.body()?.data?.results
-                resourceEvent.responseAction = LOGIN_SUCCESS
+                resourceEvent.resourceObject = result.body()?.data?.results
+                resourceEvent.responseAction = SUCCESS
             }
             404 -> {
                 resourceEvent.responseAction = BAD
@@ -65,7 +63,7 @@ class MarvelRepository(
             }
         }
         resourceEvent.loading = false
-        emit(resourceEvent.user)
+        emit(resourceEvent.resourceObject)
     }.catch {
         resourse.loading = false
         Log.e(this@MarvelRepository.javaClass.name, "")

@@ -10,8 +10,7 @@ import com.abel.avengerit.utils.showToast
 import com.abel.avengerit.view_models.SessionViewModel
 import com.facebook.*
 import com.abel.avengerit.R
-import com.abel.avengerit.utils.valideLogin
-import com.abel.avengerit.utils.valideRegister
+import com.abel.avengerit.utils.setClipboard
 import com.abel.avengerit.view_models.Resourse.Companion.BAD
 import com.abel.avengerit.view_models.Resourse.Companion.FIELD_INVALID
 import com.facebook.appevents.AppEventsLogger
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
-import com.abel.avengerit.view_models.Resourse.Companion.LOGIN_SUCCESS
+import com.abel.avengerit.view_models.Resourse.Companion.SUCCESS
 import com.abel.avengerit.view_models.Resourse.Companion.USER_REGISTERED
 
 
@@ -39,18 +38,27 @@ class LoginActivity : AppCompatActivity() {
 
         initObservable()
         initListeners()
+        init()
         viewModel.isUserInLog()
+    }
+
+    private fun init() {
+        editTextTextEmail.clearFocus()
+        editTextTextPass.clearFocus()
+        editTextTextPassRepeat.clearFocus()
+        motion_layout_login.requestFocus()
     }
 
     private fun initObservable() {
 
         viewModel.getResourceLive().observe(this, {
             when (it.responseAction) {
-                LOGIN_SUCCESS -> goToMain()
+                SUCCESS -> goToMain()
                 BAD -> baseContext.showToast(getString(R.string.error_login))
-                FIELD_INVALID -> baseContext.showToast(getString(R.string.error_login))
+                FIELD_INVALID -> baseContext.showToast(getString(R.string.completar_campos))
                 USER_REGISTERED -> {
                     baseContext.showToast(getString(R.string.registered_user_succes))
+                    buttonRegistrar.performClick()
                     viewModeLogin()
                 }
             }
@@ -61,13 +69,14 @@ class LoginActivity : AppCompatActivity() {
         buttonEntrar.setOnClickListener {
             val emailInput = editTextTextEmail.text.toString().trim()
             val passInput = editTextTextPass.text.toString().trim()
-            val passInputRepeat = editTextTextPassRepeat.text.toString().trim()
+            viewModel.loginUserFirebase(emailInput, passInput)
 
-            if (textInputLayouPassRepeat.visibility == View.VISIBLE) {
-                viewModel.registerUserFirebase(emailInput, passInput, passInputRepeat)
-            } else {
-                viewModel.loginUserFirebase(emailInput, passInput)
-            }
+        }
+        buttonRegistrarUser.setOnClickListener {
+            val emailInput = editTextTextEmail.text.toString().trim()
+            val passInput = editTextTextPass.text.toString().trim()
+            val passInputRepeat = editTextTextPassRepeat.text.toString().trim()
+            viewModel.registerUserFirebase(emailInput, passInput, passInputRepeat)
         }
 
         buttonFacebook.setOnClickListener {
@@ -86,15 +95,11 @@ class LoginActivity : AppCompatActivity() {
                     }
                 })
             LoginManager.getInstance().logInWithReadPermissions(this, listOf("email"));
-
         }
 
-        buttonRegistrar.setOnClickListener {
-            if (textInputLayouPassRepeat.visibility != View.VISIBLE) {
-                viewModeRegister()
-            } else {
-                viewModeLogin()
-            }
+        imageViewClipBoard.setOnClickListener {
+            setClipboard(baseContext, "sharon_ijgjxre_martina@tfbnw.net") //contraseña: prueba1234
+            baseContext.showToast("Email copiado! \nLa contraseña es: prueba1234")
         }
     }
 
@@ -112,12 +117,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager?.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun viewModeRegister() {
-        buttonRegistrar.text = getString(R.string.ya_tengo_una)
-        textInputLayouPassRepeat.visibility = View.VISIBLE
-        buttonEntrar.text = getString(R.string.registrarse)
     }
 
     private fun viewModeLogin() {

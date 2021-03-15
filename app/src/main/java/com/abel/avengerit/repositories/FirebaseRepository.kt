@@ -9,7 +9,7 @@ import com.abel.avengerit.view_models.Resourse
 import com.abel.avengerit.view_models.Resourse.Companion.BAD
 import com.abel.avengerit.view_models.Resourse.Companion.CANCEL
 import com.abel.avengerit.view_models.Resourse.Companion.FIELD_INVALID
-import com.abel.avengerit.view_models.Resourse.Companion.LOGIN_SUCCESS
+import com.abel.avengerit.view_models.Resourse.Companion.SUCCESS
 import com.abel.avengerit.view_models.Resourse.Companion.USER_REGISTERED
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
@@ -46,8 +46,8 @@ class FirebaseRepository(
                                     cont.cancel()
                                 }
                                 task.isSuccessful -> {
-                                    resourse.responseAction = LOGIN_SUCCESS
-                                    resourse.user = firebaseAuth.currentUser?.toSessionEntity()
+                                    resourse.responseAction = SUCCESS
+                                    resourse.resourceObject = firebaseAuth.currentUser?.toSessionEntity()
                                 }
                                 else -> {
                                     resourse.responseAction = BAD
@@ -57,8 +57,8 @@ class FirebaseRepository(
                         }
                 }
             }
-            if (resourse.responseAction == LOGIN_SUCCESS) {
-                resourse.user?.let { saveSessionLocal(it) }
+            if (resourse.responseAction == SUCCESS) {
+                resourse.resourceObject?.let { saveSessionLocal(it) }
             }
         } else {
             resourse.responseAction = FIELD_INVALID
@@ -83,8 +83,8 @@ class FirebaseRepository(
                                 }
                                 task.isSuccessful -> {
                                     resourse.responseAction = USER_REGISTERED
-                                    resourse.user = firebaseAuth.currentUser?.toSessionEntity()
-                                    resourse.user?.let { saveSessionLocal(it) }
+                                    resourse.resourceObject = firebaseAuth.currentUser?.toSessionEntity()
+                                    resourse.resourceObject?.let { saveSessionLocal(it) }
                                 }
                                 else -> {
                                     resourse.responseAction = BAD
@@ -117,9 +117,9 @@ class FirebaseRepository(
                             cont.cancel()
                         }
                         task.isSuccessful -> {
-                            resourse.responseAction = LOGIN_SUCCESS
-                            resourse.user = firebaseAuth.currentUser?.toSessionEntity()
-                            resourse.user?.let { saveSessionLocal(it) }
+                            resourse.responseAction = SUCCESS
+                            resourse.resourceObject = firebaseAuth.currentUser?.toSessionEntity()
+                            resourse.resourceObject?.let { saveSessionLocal(it) }
                         }
                         else -> {
                             resourse.responseAction = BAD
@@ -134,7 +134,7 @@ class FirebaseRepository(
     suspend fun sessionActive() = flow {
         val userActive = database.sessionDao().getAll()
         if (!userActive.isNullOrEmpty()) {
-            resourse.responseAction = LOGIN_SUCCESS
+            resourse.responseAction = SUCCESS
             emit(resourse)
         }
     }

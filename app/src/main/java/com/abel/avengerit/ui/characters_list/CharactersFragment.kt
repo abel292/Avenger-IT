@@ -16,7 +16,7 @@ import com.abel.avengerit.utils.OnLoadMoreListener
 import com.abel.avengerit.utils.showToast
 import com.abel.avengerit.view_models.MarvelViewModel
 import com.abel.avengerit.view_models.Resourse.Companion.BAD
-import com.abel.avengerit.view_models.Resourse.Companion.LOGIN_SUCCESS
+import com.abel.avengerit.view_models.Resourse.Companion.SUCCESS
 import kotlinx.android.synthetic.main.fragment_characters.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -51,7 +51,7 @@ class CharactersFragment : BaseFragmentList<Result>() {
     private fun initObservables() {
         viewModel.resourceCharacterLive.observe(this, {
             when (it.responseAction) {
-                LOGIN_SUCCESS -> init(it.user)
+                SUCCESS -> init(it.resourceObject)
                 BAD -> context?.showToast("Algo salio mal")
             }
             if (it.loading) {
