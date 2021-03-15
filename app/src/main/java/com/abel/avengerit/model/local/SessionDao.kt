@@ -24,5 +24,5 @@ interface SessionDao {
     fun updateTodo(vararg entity: SessionEntity)
 
     @Query("DELETE FROM _SESSIONS")
-    fun clearTable()
+    suspend fun clearTable()
 }
