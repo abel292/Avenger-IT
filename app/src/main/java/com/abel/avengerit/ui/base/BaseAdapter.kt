@@ -18,14 +18,13 @@ abstract class BaseAdapter(recyclerView: RecyclerView) :
     init {
 
         if (recyclerView.layoutManager is LinearLayoutManager) {
-            val linearLayoutManager = recyclerView
-                .layoutManager as LinearLayoutManager?
+            val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int, ) {
                     super.onScrolled(recyclerView, dx, dy)
                     totalItemCount = linearLayoutManager!!.itemCount
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
+
                     if (!loading && totalItemCount <= lastVisibleItem + visibleThreshold) {
                         onLoadMoreListener?.onLoadMore()
                         loading = true

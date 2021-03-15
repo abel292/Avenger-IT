@@ -11,6 +11,7 @@ import com.abel.avengerit.R
 import com.abel.avengerit.model.character.ItemComic
 import com.abel.avengerit.ui.base.BaseAdapter
 import com.abel.avengerit.utils.OnLoadMoreListener
+import com.abel.avengerit.utils.getYearComic
 import com.airbnb.lottie.LottieAnimationView
 
 class ComicsAdapter(
@@ -58,8 +59,9 @@ class ComicsAdapter(
         fun bind(
             comics: ItemComic?,
         ) {
-            textViewTitle.text = comics?.name
-            //textViewDescripcion.text = comics?.resourceURI
+            val itemComic = comics?.name?.getYearComic()
+            textViewTitle.text = itemComic?.title + itemComic?.number?:""
+            textViewDescripcion.text = itemComic?.year
         }
     }
 

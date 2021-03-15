@@ -53,7 +53,7 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
                     it.resourceObject?.forEach { character ->
                         allItems.add(character)
                     }
-                    insertMoreCharacters()
+                    insertMoreCharacters(it.resourceObject)
                 }
                 BAD -> context?.showToast(getString(R.string.algo_malio_sal))
             }
@@ -107,27 +107,18 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
 
     }
 
-    private fun insertMoreCharacters() {
+    private fun insertMoreCharacters(listMore: List<Result>?) {
         if (itemLoadeds.isNotEmpty()) {
             itemLoadeds.removeAt(itemLoadeds.size - 1)
         }
         mAdapter.notifyItemRemoved(itemLoadeds.size)
-        val start: Int = itemLoadeds.size
-        var end = start + more
 
-        end = if (end > allItems.size) {
-            allItems.size - 1
-        } else {
-            start + more
+        listMore?.forEach {
+            itemLoadeds.add(it)
+            mAdapter.notifyItemInserted(itemLoadeds.size)
         }
 
-        for (i in start + 1..end) {
-            if (allItems.size > i) {
-                itemLoadeds.add(allItems[i])
-                mAdapter.notifyItemInserted(itemLoadeds.size)
-            }
-        }
-        if (allItems.size > mAdapter.itemCount) {
+        if (itemLoadeds.size >= mAdapter.itemCount) {
             mAdapter.setLoaded()
         }
 
