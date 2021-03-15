@@ -8,6 +8,7 @@ abstract class BaseAdapter(recyclerView: RecyclerView) :
     RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
     val VIEW_ITEM = 1
     val VIEW_PROG = 0
+
     // La cantidad mínima de elementos que debe tener debajo de su posición de desplazamiento actual antes de cargar mas
     val visibleThreshold = 5
     var lastVisibleItem = 0
@@ -20,7 +21,7 @@ abstract class BaseAdapter(recyclerView: RecyclerView) :
         if (recyclerView.layoutManager is LinearLayoutManager) {
             val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int, ) {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     totalItemCount = linearLayoutManager!!.itemCount
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()

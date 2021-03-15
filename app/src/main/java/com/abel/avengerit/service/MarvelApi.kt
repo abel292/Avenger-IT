@@ -20,6 +20,8 @@ interface MarvelApi {
 
     @GET("v1/public/events")
     suspend fun getEvents(
+        @Query("limit") limit: String,
+        @Query("offset") offset: String,
         @Query("apikey") apikey: String,
         @Query("hash") hash: String,
         @Query("ts") ts: String

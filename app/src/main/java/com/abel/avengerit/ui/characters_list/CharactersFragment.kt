@@ -1,7 +1,6 @@
 package com.abel.avengerit.ui.characters_list
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,12 +48,7 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
     private fun initObservables() {
         viewModel.resourceCharacterLive.observe(this, {
             when (it.responseAction) {
-                SUCCESS -> {
-                    it.resourceObject?.forEach { character ->
-                        allItems.add(character)
-                    }
-                    insertMoreCharacters(it.resourceObject)
-                }
+                SUCCESS -> { insertMoreCharacters(it.resourceObject) }
                 BAD -> context?.showToast(getString(R.string.algo_malio_sal))
             }
         })
@@ -63,25 +57,12 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
     private fun init() {
         if (!loadedList) {
             itemLoadeds = ArrayList()
-            allItems = ArrayList()
-            viewModel.getCharacters(allItems.size)
+            viewModel.getCharacters(itemLoadeds.size)
             loadRecyclerView()
         } else {
             loadRecyclerView()
         }
     }
-
-    private fun loadDataFirst() {
-        //Cargamos los primero remitos y si hay menos que "cantFirstLoad" cargamos todos
-        if (allItems.size <= cantFirstLoad) {
-            itemLoadeds.addAll(allItems)
-        } else {
-            for (i in 0..cantFirstLoad) {
-                itemLoadeds.add(allItems[i])
-            }
-        }
-    }
-
     private fun loadRecyclerView() {
         recyclerViewCharacter.setHasFixedSize(true)
         mLayoutManager = LinearLayoutManager(this.requireContext())
@@ -89,7 +70,7 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
         mAdapter = CharacterAdapter(itemLoadeds, recyclerViewCharacter, itemListener)
         recyclerViewCharacter.adapter = mAdapter
 
-        // Cuando el usuario pulsa el botón Atrás, la transición se realiza hacia atrás.
+        // Para cuando el usuario pulsa el botón Atrás
         postponeEnterTransition()
         recyclerViewCharacter.doOnPreDraw {
             startPostponedEnterTransition()
@@ -103,7 +84,7 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
         mAdapter.notifyItemInserted(itemLoadeds.size - 1)
 
         //pedimos 15 registros mas a la api
-        viewModel.getCharacters(allItems.size)
+        viewModel.getCharacters(itemLoadeds.size)
 
     }
 

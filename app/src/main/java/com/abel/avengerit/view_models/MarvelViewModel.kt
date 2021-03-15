@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class MarvelViewModel(private val marvelRepository: MarvelRepository) : ViewModel() {
 
     val resourceCharacterLive = MutableLiveData<Resourse<List<Result>?>>()
-    val eventsLive = MutableLiveData<List<Event>?>()
+    val eventsLive = MutableLiveData<Resourse<List<Event>?>>()
 
     fun getCharacters(offset: Int) {
         viewModelScope.launch {
@@ -22,9 +22,9 @@ class MarvelViewModel(private val marvelRepository: MarvelRepository) : ViewMode
         }
     }
 
-    fun getEvents() {
+    fun getEvents(offset: Int) {
         viewModelScope.launch {
-            marvelRepository.getEvents().collect {
+            marvelRepository.getEvents(offset.toString()).collect {
                 eventsLive.value = it
             }
         }

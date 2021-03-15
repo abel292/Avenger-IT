@@ -43,6 +43,7 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/email"
         android:textColorHint="@color/white"
+        android:textCursorDrawable="@drawable/shape_coursor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView">
@@ -66,6 +67,7 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/password"
         android:textColorHint="@color/white"
+        android:textCursorDrawable="@drawable/shape_coursor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayouEmail">
@@ -92,6 +94,7 @@
         android:animateLayoutChanges="true"
         android:hint="@string/password_repeat"
         android:textColorHint="@color/white"
+        android:textCursorDrawable="@drawable/shape_coursor"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,12 +113,12 @@
 
     <Button
         android:id="@+id/buttonEntrar"
+        style="@style/ButtomMarvel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:background="@color/cardview_shadow_start_color"
         android:text="@string/entrar"
-        style="@style/ButtomMarvel"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/buttonFacebook"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayouPassRepeat"

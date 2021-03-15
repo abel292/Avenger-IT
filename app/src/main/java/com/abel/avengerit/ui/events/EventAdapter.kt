@@ -21,7 +21,6 @@ import com.bumptech.glide.Glide
 class EventAdapter(
     private val list: ArrayList<Event?>,
     recyclerView: RecyclerView,
-    private val onClickListener: OnClickItemListener?,
 ) : BaseAdapter(recyclerView) {
 
     override fun getItemViewType(position: Int): Int {
@@ -52,7 +51,7 @@ class EventAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is EventViewHolder) {
             val character = list[position]
-            holder.bind(character, onClickListener)
+            holder.bind(character)
         }
     }
 
@@ -67,8 +66,7 @@ class EventAdapter(
         var imageViewPortEvent: ImageView = view.findViewById(R.id.imageViewPortEvent)
 
         fun bind(
-            event: Event?,
-            onClickListener: OnClickItemListener?
+            event: Event?
         ) {
             textViewTitleEventItem.text = event?.title
             textViewDate1.text = event?.start?.let { changeFormatDate(it) } ?: ""
@@ -84,9 +82,6 @@ class EventAdapter(
 
             loadListComics(event)
             view.setOnClickListener {
-                if (event != null) {
-                    onClickListener?.onClick()
-                }
                 modeExpandle(recyclerViewComicsEvent.visibility != View.VISIBLE)
             }
 

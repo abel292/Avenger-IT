@@ -19,18 +19,12 @@ class MarvelRepository(
 
     suspend fun getCharacters(offset: String) = flow {
         //Genero el hash por si tengo que hacer un cambio
-        val hash = stringToMd5("1${BuildConfig.API_KEY_PRIVATE}${BuildConfig.API_KEY_PUBLIC}")
-        val result = marvelApi.getCharacters("15", offset, BuildConfig.API_KEY_PUBLIC, hash, "1")
+        val hash = stringToMd5("$TS${BuildConfig.API_KEY_PRIVATE}${BuildConfig.API_KEY_PUBLIC}")
+        val result = marvelApi.getCharacters(LIMIT, offset, BuildConfig.API_KEY_PUBLIC, hash, TS)
         when (result.body()?.code) {
             200 -> {
                 resourse.resourceObject = result.body()?.data?.results
                 resourse.responseAction = SUCCESS
-            }
-            404 -> {
-                resourse.responseAction = BAD
-            }
-            401 -> {
-                resourse.responseAction = BAD
             }
             else -> {
                 resourse.responseAction = BAD
@@ -44,30 +38,29 @@ class MarvelRepository(
         emit(resourse)
     }
 
-    suspend fun getEvents() = flow {
+    suspend fun getEvents(offset: String) = flow {
         val resourceEvent = Resourse<List<Event>?>(null, null)
-        val hash = stringToMd5("1${BuildConfig.API_KEY_PRIVATE}${BuildConfig.API_KEY_PUBLIC}")
-        val result = marvelApi.getEvents(BuildConfig.API_KEY_PUBLIC, hash, "1")
+        val hash = stringToMd5("$TS${BuildConfig.API_KEY_PRIVATE}${BuildConfig.API_KEY_PUBLIC}")
+        val result = marvelApi.getEvents(LIMIT, offset, BuildConfig.API_KEY_PUBLIC, hash, TS)
         when (result.body()?.code) {
             200 -> {
                 resourceEvent.resourceObject = result.body()?.data?.results
                 resourceEvent.responseAction = SUCCESS
-            }
-            404 -> {
-                resourceEvent.responseAction = BAD
-            }
-            401 -> {
-                resourceEvent.responseAction = BAD
             }
             else -> {
                 resourceEvent.responseAction = BAD
             }
         }
         resourceEvent.loading = false
-        emit(resourceEvent.resourceObject)
+        emit(resourceEvent)
     }.catch {
         resourse.loading = false
         Log.e(this@MarvelRepository.javaClass.name, "")
+    }
+
+    companion object {
+        const val LIMIT = "15"
+        const val TS = "1"
     }
 
 }

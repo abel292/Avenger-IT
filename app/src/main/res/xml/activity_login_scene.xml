@@ -125,10 +125,24 @@
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="40dp"
             motion:layout_constraintBottom_toTopOf="@+id/textView"
             motion:layout_constraintStart_toStartOf="parent"
             android:id="@+id/buttonFacebook" />
+        <Constraint
+            android:id="@+id/textView"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+            motion:layout_constraintHorizontal_bias="0.24"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:visibility="visible" >
+            <CustomAttribute
+                motion:attributeName="text"
+                motion:customStringValue="@string/aun_no_tienes_cuenta" />
+        </Constraint>
     </ConstraintSet>
     <ConstraintSet android:id="@+id/mode_register">
         <Constraint
@@ -192,7 +206,7 @@
             motion:layout_constraintBottom_toTopOf="@+id/buttonFacebook"
             motion:layout_constraintEnd_toEndOf="@+id/textInputLayouPassRepeat"
             motion:layout_constraintHorizontal_bias="0.511"
-            motion:layout_constraintStart_toStartOf="@+id/textInputLayouPassRepeat"></Constraint>
+            motion:layout_constraintStart_toStartOf="@+id/textInputLayouPassRepeat" />
         <Constraint
             android:id="@+id/buttonRegistrarUser"
             android:layout_width="wrap_content"
@@ -206,10 +220,24 @@
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="40dp"
             motion:layout_constraintBottom_toTopOf="@+id/textView"
             motion:layout_constraintStart_toStartOf="parent"
             android:id="@+id/buttonFacebook" />
+        <Constraint
+            android:id="@+id/textView"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+            motion:layout_constraintHorizontal_bias="0.24"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:visibility="visible" >
+            <CustomAttribute
+                motion:attributeName="text"
+                motion:customStringValue="       ◀ " />
+        </Constraint>
     </ConstraintSet>
     <Transition
         motion:constraintSetEnd="@+id/mode_register"
