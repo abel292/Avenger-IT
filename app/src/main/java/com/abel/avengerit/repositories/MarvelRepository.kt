@@ -17,10 +17,10 @@ class MarvelRepository(
     private val resourse: Resourse<List<Result>?>
 ) {
 
-    suspend fun getCharacters() = flow {
+    suspend fun getCharacters(offset: String) = flow {
         //Genero el hash por si tengo que hacer un cambio
         val hash = stringToMd5("1${BuildConfig.API_KEY_PRIVATE}${BuildConfig.API_KEY_PUBLIC}")
-        val result = marvelApi.getCharacters(BuildConfig.API_KEY_PUBLIC, hash, "1")
+        val result = marvelApi.getCharacters("15", offset, BuildConfig.API_KEY_PUBLIC, hash, "1")
         when (result.body()?.code) {
             200 -> {
                 resourse.resourceObject = result.body()?.data?.results
@@ -37,6 +37,7 @@ class MarvelRepository(
             }
         }
         resourse.loading = false
+        kotlinx.coroutines.delay(2000)
         emit(resourse)
     }.catch {
         resourse.responseAction = BAD

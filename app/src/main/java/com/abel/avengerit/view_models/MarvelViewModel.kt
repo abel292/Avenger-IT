@@ -14,9 +14,9 @@ class MarvelViewModel(private val marvelRepository: MarvelRepository) : ViewMode
     val resourceCharacterLive = MutableLiveData<Resourse<List<Result>?>>()
     val eventsLive = MutableLiveData<List<Event>?>()
 
-    fun getCharacters() {
+    fun getCharacters(offset: Int) {
         viewModelScope.launch {
-            marvelRepository.getCharacters().collect {
+            marvelRepository.getCharacters(offset.toString()).collect {
                 resourceCharacterLive.value = it
             }
         }

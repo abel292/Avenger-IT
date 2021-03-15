@@ -79,7 +79,7 @@ class EventsFragment : BaseFragmentList<Event>(), OnClickItemListener {
 
             //probamos nuevamente
             if (attempts < 2) {
-                Handler().postDelayed({ viewModel.getCharacters() }, 560L)
+                Handler().postDelayed({ viewModel.getEvents() }, 560L)
                 attempts++
             }
         } else {

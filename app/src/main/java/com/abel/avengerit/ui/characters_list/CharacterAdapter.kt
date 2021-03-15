@@ -89,8 +89,6 @@ class CharacterAdapter(
     }
 
     class OnClickListener(val clickListener: (Result) -> Unit) {
-        fun onClick(
-            character: Result,
-        ) = clickListener(character)
+        fun onClick(character: Result) = clickListener(character)
     }
 }

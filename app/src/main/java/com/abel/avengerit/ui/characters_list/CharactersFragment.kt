@@ -20,13 +20,12 @@ import com.abel.avengerit.view_models.Resourse.Companion.SUCCESS
 import kotlinx.android.synthetic.main.fragment_characters.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CharactersFragment : BaseFragmentList<Result>() {
+class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
 
     private val viewModel: MarvelViewModel by viewModel()
     lateinit var mAdapter: CharacterAdapter
     private val itemListener = CharacterAdapter.OnClickListener { character ->
-        val direction: NavDirections =
-            CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(character)
+        val direction: NavDirections = CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(character)
         findNavController().navigate(direction)
     }
 
@@ -37,42 +36,36 @@ class CharactersFragment : BaseFragmentList<Result>() {
         return inflater.inflate(R.layout.fragment_characters, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initObservables()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.getCharacters()
-
-    }
-
     private fun initObservables() {
         viewModel.resourceCharacterLive.observe(this, {
             when (it.responseAction) {
-                SUCCESS -> init(it.resourceObject)
-                BAD -> context?.showToast("Algo salio mal")
-            }
-            if (it.loading) {
-                progressBarAnimated.visibility = View.VISIBLE
-            } else {
-                progressBarAnimated.visibility = View.GONE
+                SUCCESS -> {
+                    it.resourceObject?.forEach { character ->
+                        allItems.add(character)
+                    }
+                    insertMoreCharacters()
+                }
+                BAD -> context?.showToast(getString(R.string.algo_malio_sal))
             }
         })
     }
 
-    private fun init(list: List<Result>?) {
+    private fun init() {
         if (!loadedList) {
             itemLoadeds = ArrayList()
             allItems = ArrayList()
-            list?.forEach { character ->
-                allItems.add(character)
-            }
-            handler = Handler()
-            loadDataFirst()
+            viewModel.getCharacters(allItems.size)
             loadRecyclerView()
-
         } else {
             loadRecyclerView()
         }
@@ -89,7 +82,6 @@ class CharactersFragment : BaseFragmentList<Result>() {
         }
     }
 
-
     private fun loadRecyclerView() {
         recyclerViewCharacter.setHasFixedSize(true)
         mLayoutManager = LinearLayoutManager(this.requireContext())
@@ -102,56 +94,52 @@ class CharactersFragment : BaseFragmentList<Result>() {
         recyclerViewCharacter.doOnPreDraw {
             startPostponedEnterTransition()
         }
+        mAdapter.setOnLoadMoreListener(this)
+
+    }
+
+    override fun onLoadMore() {
+        itemLoadeds.add(null)
+        mAdapter.notifyItemInserted(itemLoadeds.size - 1)
+
+        //pedimos 15 registros mas a la api
+        viewModel.getCharacters(allItems.size)
+
+    }
+
+    private fun insertMoreCharacters() {
+        if (itemLoadeds.isNotEmpty()) {
+            itemLoadeds.removeAt(itemLoadeds.size - 1)
+        }
+        mAdapter.notifyItemRemoved(itemLoadeds.size)
+        val start: Int = itemLoadeds.size
+        var end = start + more
+
+        end = if (end > allItems.size) {
+            allItems.size - 1
+        } else {
+            start + more
+        }
+
+        for (i in start + 1..end) {
+            if (allItems.size > i) {
+                itemLoadeds.add(allItems[i])
+                mAdapter.notifyItemInserted(itemLoadeds.size)
+            }
+        }
+        if (allItems.size > mAdapter.itemCount) {
+            mAdapter.setLoaded()
+        }
+
         if (itemLoadeds.isEmpty()) {
             recyclerViewCharacter.visibility = View.GONE
             textViewWithoutCharacter.visibility = View.VISIBLE
 
-            //probamos nuevamente
-            if (attempts < 2) {
-                Handler().postDelayed({ viewModel.getCharacters() }, 560L)
-                attempts++
-            }
         } else {
             loadedList = true
             recyclerViewCharacter.visibility = View.VISIBLE
             textViewWithoutCharacter.visibility = View.GONE
         }
-        setListenerAdapter()
-    }
-
-    private fun setListenerAdapter() {
-        mAdapter.setOnLoadMoreListener(object : OnLoadMoreListener {
-            override fun onLoadMore() {
-                //add null , so the adapter will check view_type and show progress bar at bottom
-                itemLoadeds.add(null)
-                mAdapter.notifyItemInserted(itemLoadeds.size - 1)
-                handler?.postDelayed(Runnable {
-                    //   remove progress item
-                    itemLoadeds.removeAt(itemLoadeds.size - 1)
-                    mAdapter.notifyItemRemoved(itemLoadeds.size)
-
-                    //add items one by one
-                    val start: Int = itemLoadeds.size
-                    var end = start + more
-
-                    end = if (end > allItems.size) {
-                        allItems.size - 1
-                    } else {
-                        start + more
-                    }
-                    for (i in start + 1..end) {
-                        if (allItems.size > i) {
-                            itemLoadeds.add(allItems[i])
-                            mAdapter.notifyItemInserted(itemLoadeds.size)
-                        }
-                    }
-                    if (allItems.size > mAdapter.itemCount) {
-                        mAdapter.setLoaded()
-                    }
-                    //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
-                }, 2000)
-            }
-        })
     }
 
 

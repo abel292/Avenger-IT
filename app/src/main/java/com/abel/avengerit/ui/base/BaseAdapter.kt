@@ -21,10 +21,8 @@ abstract class BaseAdapter(recyclerView: RecyclerView) :
             val linearLayoutManager = recyclerView
                 .layoutManager as LinearLayoutManager?
             recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(
-                    recyclerView: RecyclerView,
-                    dx: Int, dy: Int,
-                ) {
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int, ) {
                     super.onScrolled(recyclerView, dx, dy)
                     totalItemCount = linearLayoutManager!!.itemCount
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()

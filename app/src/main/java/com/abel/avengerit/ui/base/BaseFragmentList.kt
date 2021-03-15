@@ -15,7 +15,7 @@ abstract class BaseFragmentList<T> : Fragment() {
     var handler: Handler? = null
     val cantFirstLoad = 15
     var attempts = 0
-    val more = 5
+    val more = 15
 
     fun showButtonExit() {
         activity?.let {
