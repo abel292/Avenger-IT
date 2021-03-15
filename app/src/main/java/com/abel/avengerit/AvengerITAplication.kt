@@ -1,6 +1,7 @@
 package com.abel.avengerit
 
 import android.app.Application
+import android.content.Context
 import com.abel.avengerit.modules.moduleApp
 import com.abel.avengerit.modules.moduleViewModels
 import org.koin.android.ext.koin.androidContext
@@ -14,5 +15,14 @@ class AvengerITAplication : Application() {
             modules(moduleApp, moduleViewModels)
         }
     }
+
+    companion object {
+        lateinit var appInstance: AvengerITAplication
+            private set
+        val appContext: Context by lazy {
+            appInstance.applicationContext
+        }
+    }
+
 
 }

@@ -8,7 +8,6 @@ abstract class BaseAdapter(recyclerView: RecyclerView) :
     RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
     val VIEW_ITEM = 1
     val VIEW_PROG = 0
-
     // La cantidad mínima de elementos que debe tener debajo de su posición de desplazamiento actual antes de cargar mas
     val visibleThreshold = 5
     var lastVisibleItem = 0

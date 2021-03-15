@@ -3,35 +3,21 @@ package com.abel.avengerit.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.abel.avengerit.R
-import com.abel.avengerit.utils.showToast
-import com.abel.avengerit.view_models.MarvelViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private val viewModel: MarvelViewModel by viewModel()
-
     lateinit var navController: NavController
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        initObservable()
         init()
+        initListener()
 
-    }
-
-    private fun initObservable() {
-        viewModel.characterLive.observe(this, {
-            this.showToast(it?.toString() + " TODOS!")
-        })
     }
 
     private fun init() {
@@ -39,6 +25,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navController = findNavController(R.id.nav_host_fragment)
         bottom_navigation?.setOnNavigationItemSelectedListener(this)
 
+    }
+
+    private fun initListener() {
+        imageViewExit.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -58,5 +50,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             else -> false
         }
+    }
+
+    fun setIconExit(visible: Boolean) {
+        if (visible)
+            imageViewExit.visibility = View.VISIBLE
+        else
+            imageViewExit.visibility = View.GONE
     }
 }

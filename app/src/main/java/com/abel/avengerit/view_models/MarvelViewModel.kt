@@ -6,19 +6,18 @@ import androidx.lifecycle.viewModelScope
 import com.abel.avengerit.model.character.Result
 import com.abel.avengerit.model.event.Event
 import com.abel.avengerit.repositories.MarvelRepository
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MarvelViewModel(private val marvelRepository: MarvelRepository) : ViewModel() {
 
-    val characterLive = MutableLiveData<List<Result>?>()
+    val resourceCharacterLive = MutableLiveData<Resourse<List<Result>?>>()
     val eventsLive = MutableLiveData<List<Event>?>()
 
     fun getCharacters() {
         viewModelScope.launch {
             marvelRepository.getCharacters().collect {
-                characterLive.value = it
+                resourceCharacterLive.value = it
             }
         }
     }
@@ -30,5 +29,4 @@ class MarvelViewModel(private val marvelRepository: MarvelRepository) : ViewMode
             }
         }
     }
-
 }

@@ -2,69 +2,138 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_mayor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/toolbar"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".ui.login.LoginActivity">
 
-    <Button
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="¿Aun no tienes cuenta?"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/buttonRegistrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registrar"
-        android:background="@color/cardview_shadow_start_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="10dp"
+        android:text="@string/registrarse"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
-    <EditText
-        android:id="@+id/editTextTextEmail"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayouEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
-        android:ems="10"
         android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:text="abel@gmail.com"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegistrar"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/editTextTextPass"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTextEmail"
+            style="@style/EditTextMarvel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_border"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:text="abel@gmail.com" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayouPass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:text="123456"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegistrar"
+        android:hint="@string/password"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayouEmail">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTextPass"
+            style="@style/EditTextMarvel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_border"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="123456"
+            android:textColorHint="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayouPassRepeat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:animateLayoutChanges="true"
+        android:hint="@string/password"
+        android:textColorHint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayouPass">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTextPassRepeat"
+            style="@style/EditTextMarvel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_border"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="123456"
+            android:textColorHint="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/buttonEntrar"
+        style="@style/ButtomMarvel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Entrar"
         android:background="@color/cardview_shadow_start_color"
-        app:layout_constraintStart_toStartOf="@+id/buttonRegistrar"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegistrar" />
+        android:text="@string/entrar"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayouPassRepeat"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayouPassRepeat"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayouPassRepeat" />
 
-    <com.facebook.login.widget.LoginButton
+    <ImageView
         android:id="@+id/buttonFacebook"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="@+id/buttonEntrar"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEntrar" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEntrar"
+        app:layout_constraintVertical_bias="0.74"
+        app:srcCompat="@drawable/ic_facebook" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

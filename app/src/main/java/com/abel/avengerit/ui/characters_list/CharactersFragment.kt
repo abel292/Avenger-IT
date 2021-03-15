@@ -13,7 +13,10 @@ import com.abel.avengerit.R
 import com.abel.avengerit.model.character.Result
 import com.abel.avengerit.ui.base.BaseFragmentList
 import com.abel.avengerit.utils.OnLoadMoreListener
+import com.abel.avengerit.utils.showToast
 import com.abel.avengerit.view_models.MarvelViewModel
+import com.abel.avengerit.view_models.Resourse.Companion.BAD
+import com.abel.avengerit.view_models.Resourse.Companion.LOGIN_SUCCESS
 import kotlinx.android.synthetic.main.fragment_characters.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,30 +44,51 @@ class CharactersFragment : BaseFragmentList<Result>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        viewModel.getCharacters()
+
     }
 
-    private fun init() {
-        viewModel.getCharacters()
-        if (loadedList) {
+    private fun initObservables() {
+        viewModel.resourceCharacterLive.observe(this, {
+            when (it.responseAction) {
+                LOGIN_SUCCESS -> init(it.user)
+                BAD -> context?.showToast("Algo salio mal")
+            }
+            if (it.loading) {
+                progressBarAnimated.visibility = View.VISIBLE
+            } else {
+                progressBarAnimated.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun init(list: List<Result>?) {
+        if (!loadedList) {
+            itemLoadeds = ArrayList()
+            allItems = ArrayList()
+            list?.forEach { character ->
+                allItems.add(character)
+            }
+            handler = Handler()
+            loadDataFirst()
+            loadRecyclerView()
+
+        } else {
             loadRecyclerView()
         }
     }
 
-    private fun initObservables() {
-        viewModel.characterLive.observe(this, {
-            if (!loadedList) {
-                itemLoadeds = ArrayList()
-                allItems = ArrayList()
-                it?.forEach { character ->
-                    allItems.add(character)
-                }
-                handler = Handler()
-                loadDataFirst()
-                loadRecyclerView()
+    private fun loadDataFirst() {
+        //Cargamos los primero remitos y si hay menos que "cantFirstLoad" cargamos todos
+        if (allItems.size <= cantFirstLoad) {
+            itemLoadeds.addAll(allItems)
+        } else {
+            for (i in 0..cantFirstLoad) {
+                itemLoadeds.add(allItems[i])
             }
-        })
+        }
     }
+
 
     private fun loadRecyclerView() {
         recyclerViewCharacter.setHasFixedSize(true)
@@ -129,18 +153,6 @@ class CharactersFragment : BaseFragmentList<Result>() {
             }
         })
     }
-
-    private fun loadDataFirst() {
-        //Cargamos los primero remitos y si hay menos que "cantFirstLoad" cargamos todos
-        if (allItems.size <= cantFirstLoad) {
-            itemLoadeds.addAll(allItems)
-        } else {
-            for (i in 0..cantFirstLoad) {
-                itemLoadeds.add(allItems[i])
-            }
-        }
-    }
-
 
 
 }

@@ -17,13 +17,13 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 
 class DetailFragment : BaseFragmentList<ItemComic>() {
 
-    lateinit var product: Result
+    lateinit var comic: Result
     lateinit var mAdapter: ComicsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = requireArguments()
-        product = DetailFragmentArgs.fromBundle(args).argCharacter
+        comic = DetailFragmentArgs.fromBundle(args).argCharacter
     }
 
     override fun onCreateView(
@@ -40,14 +40,17 @@ class DetailFragment : BaseFragmentList<ItemComic>() {
     }
 
     private fun populateView() {
+        showButtonExit()
         Glide.with(imageViewAvatarCharacterDetail.context)
-            .load("${product.thumbnail.path}.${product.thumbnail.extension}")
+            .load("${comic.thumbnail.path}.${comic.thumbnail.extension}")
             .placeholder(R.drawable.ic_marvel)
             .error(R.drawable.ic_marvel)
             .override(700, 700)
             .centerCrop()
             .into(imageViewAvatarCharacterDetail)
-        textViewDescriptionDetail.text = product.description
+        val description = if (comic.description.isEmpty())
+            getString(R.string.sin_descripcion) else comic.description
+        textViewDescriptionDetail.text = description
 
         loadRecyclerView()
 
@@ -112,7 +115,7 @@ class DetailFragment : BaseFragmentList<ItemComic>() {
     private fun loadDataFirst() {
         itemLoadeds = ArrayList()
         allItems = ArrayList()
-        product.comics.items.forEach { character ->
+        comic.comics.items.forEach { character ->
             allItems.add(character)
         }
         handler = Handler()
@@ -126,7 +129,7 @@ class DetailFragment : BaseFragmentList<ItemComic>() {
         }
     }
 
-    private fun checkLoadignActive(){
+    private fun checkLoadignActive() {
         mAdapter.setLoaded()
     }
 }

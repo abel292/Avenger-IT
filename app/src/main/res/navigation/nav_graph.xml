@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_characters">
         <action
             android:id="@+id/action_charactersFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -27,12 +31,20 @@
     <action
         android:id="@+id/actionCharactersFragment"
         app:destination="@id/charactersFragment"
-        app:popUpToInclusive="true" />
+        app:popUpToInclusive="true"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out"/>
 
     <action
         android:id="@+id/actionEventsFragment"
         app:destination="@id/eventsFragment"
-        app:popUpToInclusive="true" />
+        app:popUpToInclusive="true"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out"/>
 
     <fragment
         android:id="@+id/eventsFragment"

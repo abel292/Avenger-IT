@@ -3,20 +3,20 @@ package com.abel.avengerit.view_models
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abel.avengerit.model.local.SessionEntity
 import com.abel.avengerit.repositories.FirebaseRepository
-import com.google.firebase.auth.FirebaseUser
+import com.facebook.AccessToken
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SessionViewModel(private val firebaseRepository: FirebaseRepository) : ViewModel() {
-
-    private val userSessionLive = MutableLiveData<FirebaseUser?>()
-    private val userSessionLoggedLive = MutableLiveData<FirebaseUser?>()
+class SessionViewModel(
+    private val firebaseRepository: FirebaseRepository) : ViewModel() {
+    val resourseLive = MutableLiveData<Resourse<SessionEntity>>()
 
     fun registerUserFirebase(email: String, pass: String) {
         viewModelScope.launch {
             firebaseRepository.registerEmail(email, pass).collect {
-                userSessionLive.value = it
+                resourseLive.value = it
             }
         }
     }
@@ -24,24 +24,28 @@ class SessionViewModel(private val firebaseRepository: FirebaseRepository) : Vie
     fun loginUserFirebase(email: String, pass: String) {
         viewModelScope.launch {
             firebaseRepository.login(email, pass).collect {
-                userSessionLoggedLive.value = it
+                resourseLive.value = it
             }
         }
     }
 
-    fun loginUserFacebook() {
+    fun loginUserFacebook(token: AccessToken) {
         viewModelScope.launch {
-            firebaseRepository.logInFacebook().collect {
-                userSessionLoggedLive.value = it
+            firebaseRepository.logInFacebook(token).collect {
+                resourseLive.value = it
             }
         }
     }
 
-    fun getUserRegister(): MutableLiveData<FirebaseUser?> {
-        return userSessionLive
+    fun isUserInLog() {
+        viewModelScope.launch {
+            firebaseRepository.sessionActive().collect {
+                resourseLive.value = it
+            }
+        }
     }
 
-    fun getUserLoggedIn(): MutableLiveData<FirebaseUser?> {
-        return userSessionLoggedLive
+    fun getResourceLive(): MutableLiveData<Resourse<SessionEntity>> {
+        return resourseLive
     }
 }
