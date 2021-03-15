@@ -12,5 +12,6 @@ data class Resourse<T>(
         const val CANCEL = 400
         const val LOGIN_SUCCESS = 500
         const val USER_REGISTERED = 600
+        const val FIELD_INVALID = 700
     }
 }

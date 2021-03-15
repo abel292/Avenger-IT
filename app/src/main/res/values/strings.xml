@@ -10,12 +10,15 @@
     <string name="este_personaje_todavia_no_aparecio_en_un_comic">Este personaje todavia no aparecio en un comic</string>
     <string name="personajes">Personajes</string>
     <string name="eventos">Eventos</string>
-    <string name="password">Password</string>
-    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="password_repeat">Repite la contraseña</string>
     <string name="entrar">Entrar</string>
-    <string name="registrarse">Crear una cuenta</string>
-    <string name="ya_tengo_una">Ya tengo cuenta</string>
+    <string name="registrarse"><u>Crear una cuenta</u></string>
+    <string name="ya_tengo_una"><u>Ya tengo cuenta</u></string>
     <string name="error_login">Ocurrio un error al entrar</string>
     <string name="registered_user_succes">Usuario registrado correctamente!</string>
     <string name="sin_descripcion">Sin descripción</string>
+    <string name="email">Email</string>
+    <string name="aun_no_tienes_cuenta">¿Aun no tienes cuenta?</string>
+    <string name="completar_campos">Por favor completa los campos de forma correcta</string>
 </resources>

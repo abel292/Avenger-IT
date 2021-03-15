@@ -3,9 +3,12 @@ package com.abel.avengerit.repositories
 import com.abel.avengerit.model.local.AppDatabase
 import com.abel.avengerit.model.local.SessionEntity
 import com.abel.avengerit.utils.toSessionEntity
+import com.abel.avengerit.utils.valideLogin
+import com.abel.avengerit.utils.valideRegister
 import com.abel.avengerit.view_models.Resourse
 import com.abel.avengerit.view_models.Resourse.Companion.BAD
 import com.abel.avengerit.view_models.Resourse.Companion.CANCEL
+import com.abel.avengerit.view_models.Resourse.Companion.FIELD_INVALID
 import com.abel.avengerit.view_models.Resourse.Companion.LOGIN_SUCCESS
 import com.abel.avengerit.view_models.Resourse.Companion.USER_REGISTERED
 import com.facebook.AccessToken
@@ -27,60 +30,76 @@ class FirebaseRepository(
 
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    suspend fun login(email: String, password: String) = flow {
-        suspendCancellableCoroutine<FirebaseUser?> { cont ->
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    when {
-                        task.exception != null -> {
-                            resourse.responseAction = BAD
-                            cont.cancel(null)
+    suspend fun login(email: String?, password: String?) = flow {
+        if (valideLogin(email, email)) {
+            suspendCancellableCoroutine<FirebaseUser?> { cont ->
+                if (email != null && password != null) {
+                    firebaseAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            when {
+                                task.exception != null -> {
+                                    resourse.responseAction = BAD
+                                    cont.cancel(null)
+                                }
+                                task.isCanceled -> {
+                                    resourse.responseAction = CANCEL
+                                    cont.cancel()
+                                }
+                                task.isSuccessful -> {
+                                    resourse.responseAction = LOGIN_SUCCESS
+                                    resourse.user = firebaseAuth.currentUser?.toSessionEntity()
+                                }
+                                else -> {
+                                    resourse.responseAction = BAD
+                                }
+                            }
+                            cont.resume(firebaseAuth.currentUser)
                         }
-                        task.isCanceled -> {
-                            resourse.responseAction = CANCEL
-                            cont.cancel()
-                        }
-                        task.isSuccessful -> {
-                            resourse.responseAction = LOGIN_SUCCESS
-                            resourse.user = firebaseAuth.currentUser?.toSessionEntity()
-                        }
-                        else -> {
-                            resourse.responseAction = BAD
-                        }
-                    }
-                    cont.resume(firebaseAuth.currentUser)
                 }
+            }
+            if (resourse.responseAction == LOGIN_SUCCESS) {
+                resourse.user?.let { saveSessionLocal(it) }
+            }
+        } else {
+            resourse.responseAction = FIELD_INVALID
         }
-        if (resourse.responseAction == LOGIN_SUCCESS) {
-            resourse.user?.let { saveSessionLocal(it) }
-        }
+
         emit(resourse)
+
     }
 
-    suspend fun registerEmail(email: String, password: String) = flow {
-        suspendCancellableCoroutine<FirebaseUser?> { cont ->
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    when {
-                        task.exception != null -> {
-                            resourse.responseAction = BAD
+    suspend fun registerEmail(email: String?, password: String?, passwordRepeat: String?) = flow {
+        if (valideRegister(email, password, passwordRepeat)) {
+            suspendCancellableCoroutine<FirebaseUser?> { cont ->
+                if (email != null && password != null) {
+                    firebaseAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            when {
+                                task.exception != null -> {
+                                    resourse.responseAction = BAD
+                                }
+                                task.isCanceled -> {
+                                    resourse.responseAction = CANCEL
+                                }
+                                task.isSuccessful -> {
+                                    resourse.responseAction = USER_REGISTERED
+                                    resourse.user = firebaseAuth.currentUser?.toSessionEntity()
+                                    resourse.user?.let { saveSessionLocal(it) }
+                                }
+                                else -> {
+                                    resourse.responseAction = BAD
+                                }
+                            }
+                            cont.resume(firebaseAuth.currentUser)
                         }
-                        task.isCanceled -> {
-                            resourse.responseAction = CANCEL
-                        }
-                        task.isSuccessful -> {
-                            resourse.responseAction = USER_REGISTERED
-                            resourse.user = firebaseAuth.currentUser?.toSessionEntity()
-                            resourse.user?.let { saveSessionLocal(it) }
-                        }
-                        else -> {
-                            resourse.responseAction = BAD
-                        }
-                    }
-                    cont.resume(firebaseAuth.currentUser)
+
                 }
+            }
+        } else {
+            resourse.responseAction = FIELD_INVALID
         }
         emit(resourse)
+
     }
 
     suspend fun logInFacebook(token: AccessToken) = flow {

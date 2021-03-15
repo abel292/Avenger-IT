@@ -10,18 +10,19 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SessionViewModel(
-    private val firebaseRepository: FirebaseRepository) : ViewModel() {
+    private val firebaseRepository: FirebaseRepository
+) : ViewModel() {
     val resourseLive = MutableLiveData<Resourse<SessionEntity>>()
 
-    fun registerUserFirebase(email: String, pass: String) {
+    fun registerUserFirebase(email: String?, pass: String?, passRepeat: String?) {
         viewModelScope.launch {
-            firebaseRepository.registerEmail(email, pass).collect {
+            firebaseRepository.registerEmail(email, pass, passRepeat).collect {
                 resourseLive.value = it
             }
         }
     }
 
-    fun loginUserFirebase(email: String, pass: String) {
+    fun loginUserFirebase(email: String?, pass: String?) {
         viewModelScope.launch {
             firebaseRepository.login(email, pass).collect {
                 resourseLive.value = it

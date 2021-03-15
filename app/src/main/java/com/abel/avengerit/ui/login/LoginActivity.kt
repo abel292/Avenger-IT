@@ -10,7 +10,10 @@ import com.abel.avengerit.utils.showToast
 import com.abel.avengerit.view_models.SessionViewModel
 import com.facebook.*
 import com.abel.avengerit.R
+import com.abel.avengerit.utils.valideLogin
+import com.abel.avengerit.utils.valideRegister
 import com.abel.avengerit.view_models.Resourse.Companion.BAD
+import com.abel.avengerit.view_models.Resourse.Companion.FIELD_INVALID
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -37,7 +40,6 @@ class LoginActivity : AppCompatActivity() {
         initObservable()
         initListeners()
         viewModel.isUserInLog()
-        container_mayor.requestFocus()
     }
 
     private fun initObservable() {
@@ -46,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
             when (it.responseAction) {
                 LOGIN_SUCCESS -> goToMain()
                 BAD -> baseContext.showToast(getString(R.string.error_login))
+                FIELD_INVALID -> baseContext.showToast(getString(R.string.error_login))
                 USER_REGISTERED -> {
                     baseContext.showToast(getString(R.string.registered_user_succes))
                     viewModeLogin()
@@ -58,8 +61,10 @@ class LoginActivity : AppCompatActivity() {
         buttonEntrar.setOnClickListener {
             val emailInput = editTextTextEmail.text.toString().trim()
             val passInput = editTextTextPass.text.toString().trim()
+            val passInputRepeat = editTextTextPassRepeat.text.toString().trim()
+
             if (textInputLayouPassRepeat.visibility == View.VISIBLE) {
-                viewModel.registerUserFirebase(emailInput, passInput)
+                viewModel.registerUserFirebase(emailInput, passInput, passInputRepeat)
             } else {
                 viewModel.loginUserFirebase(emailInput, passInput)
             }
@@ -112,10 +117,13 @@ class LoginActivity : AppCompatActivity() {
     private fun viewModeRegister() {
         buttonRegistrar.text = getString(R.string.ya_tengo_una)
         textInputLayouPassRepeat.visibility = View.VISIBLE
+        buttonEntrar.text = getString(R.string.registrarse)
     }
 
     private fun viewModeLogin() {
         buttonRegistrar.text = getString(R.string.registrarse)
         textInputLayouPassRepeat.visibility = View.GONE
+        buttonEntrar.text = getString(R.string.entrar)
+
     }
 }

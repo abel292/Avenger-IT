@@ -2,12 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container_mayor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/toolbar"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     tools:context=".ui.login.LoginActivity">
 
     <TextView
@@ -15,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="¿Aun no tienes cuenta?"
+        android:text="@string/aun_no_tienes_cuenta"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:clickable="true"
+        android:focusable="true"
         android:text="@string/registrarse"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/textView"
@@ -38,13 +38,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
-        android:hint="Email"
+        android:layout_marginBottom="30dp"
+        android:hint="@string/email"
         android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayouPass"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="1.0">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextTextEmail"
@@ -53,9 +55,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_border"
             android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:text="abel@gmail.com" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -63,13 +63,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
         android:hint="@string/password"
         android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEntrar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayouEmail">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextTextPass"
@@ -79,7 +79,6 @@
             android:background="@drawable/edittext_border"
             android:ems="10"
             android:inputType="textPassword"
-            android:text="123456"
             android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +91,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:animateLayoutChanges="true"
-        android:hint="@string/password"
+        android:hint="@string/password_repeat"
         android:textColorHint="@color/white"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +106,6 @@
             android:background="@drawable/edittext_border"
             android:ems="10"
             android:inputType="textPassword"
-            android:text="123456"
             android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,24 +114,36 @@
         style="@style/ButtomMarvel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@color/cardview_shadow_start_color"
+        android:clickable="true"
+        android:focusable="true"
         android:text="@string/entrar"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/buttonFacebook"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayouPassRepeat"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayouPassRepeat"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayouPassRepeat" />
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayouPassRepeat" />
 
     <ImageView
         android:id="@+id/buttonFacebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEntrar"
-        app:layout_constraintVertical_bias="0.74"
         app:srcCompat="@drawable/ic_facebook" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_marvel_fondo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
