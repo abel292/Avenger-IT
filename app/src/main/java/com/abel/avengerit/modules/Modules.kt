@@ -7,6 +7,7 @@ import com.abel.avengerit.model.local.AppDatabase
 import com.abel.avengerit.repositories.FirebaseRepository
 import com.abel.avengerit.repositories.MarvelRepository
 import com.abel.avengerit.service.MarvelApi
+import com.abel.avengerit.ui.login.LoginActivity
 import com.abel.avengerit.ui.main.MainActivity
 import com.abel.avengerit.view_models.MarvelViewModel
 import com.abel.avengerit.view_models.Resourse
@@ -23,6 +24,7 @@ val moduleApp = module {
     single { FirebaseRepository(getDataBase(get()), get()) }
     single { MarvelRepository(get(), get()) }
     single { MainActivity() }
+    single { LoginActivity() }
     single { getMarvelApi() }
     single { getDataBase(get()) }
     single { getAppContext() }

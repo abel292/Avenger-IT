@@ -45,12 +45,20 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
         initObservables()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setButtomModeBack(false)
+    }
+
     private fun initObservables() {
         viewModel.resourceCharacterLive.observe(this, {
             when (it.responseAction) {
-                SUCCESS -> { insertMoreCharacters(it.resourceObject) }
+                SUCCESS -> {
+                    insertMoreCharacters(it.resourceObject)
+                }
                 BAD -> context?.showToast(getString(R.string.algo_malio_sal))
             }
+            progressBarAnimatedList.visibility = View.GONE
         })
     }
 
@@ -61,8 +69,11 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
             loadRecyclerView()
         } else {
             loadRecyclerView()
+            progressBarAnimatedList.visibility = View.GONE
+
         }
     }
+
     private fun loadRecyclerView() {
         recyclerViewCharacter.setHasFixedSize(true)
         mLayoutManager = LinearLayoutManager(this.requireContext())
@@ -89,10 +100,15 @@ class CharactersFragment : BaseFragmentList<Result>(), OnLoadMoreListener {
     }
 
     private fun insertMoreCharacters(listMore: List<Result>?) {
+        //eliminamos el item cargando
         if (itemLoadeds.isNotEmpty()) {
-            itemLoadeds.removeAt(itemLoadeds.size - 1)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                itemLoadeds.removeIf { item -> item == null }
+            } else {
+                itemLoadeds.removeAt(itemLoadeds.size - 1)
+                mAdapter.notifyItemRemoved(itemLoadeds.size)
+            }
         }
-        mAdapter.notifyItemRemoved(itemLoadeds.size)
 
         listMore?.forEach {
             itemLoadeds.add(it)

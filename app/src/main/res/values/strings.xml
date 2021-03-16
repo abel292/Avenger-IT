@@ -22,4 +22,7 @@
     <string name="aun_no_tienes_cuenta">¿Aun no tienes cuenta?</string>
     <string name="completar_campos">Por favor completa los campos de forma correcta</string>
     <string name="algo_malio_sal">Algo salio mal</string>
+    <string name="cerrar_session">¿Cerrar sesion?</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
 </resources>

@@ -3,6 +3,7 @@ package com.abel.avengerit.view_models
 data class Resourse<T>(
     var resourceObject: T?,
     var responseAction: Int?,
+    var message: String = "",
     var loading: Boolean = false
 ) {
     companion object {

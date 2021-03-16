@@ -46,7 +46,6 @@ class LoginActivity : AppCompatActivity() {
         editTextTextEmail.clearFocus()
         editTextTextPass.clearFocus()
         editTextTextPassRepeat.clearFocus()
-        motion_layout_login.requestFocus()
     }
 
     private fun initObservable() {
@@ -54,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.getResourceLive().observe(this, {
             when (it.responseAction) {
                 SUCCESS -> goToMain()
-                BAD -> baseContext.showToast(getString(R.string.error_login))
+                BAD -> baseContext.showToast(it.message)
                 FIELD_INVALID -> baseContext.showToast(getString(R.string.completar_campos))
                 USER_REGISTERED -> {
                     baseContext.showToast(getString(R.string.registered_user_succes))
@@ -70,8 +69,8 @@ class LoginActivity : AppCompatActivity() {
             val emailInput = editTextTextEmail.text.toString().trim()
             val passInput = editTextTextPass.text.toString().trim()
             viewModel.loginUserFirebase(emailInput, passInput)
-
         }
+
         buttonRegistrarUser.setOnClickListener {
             val emailInput = editTextTextEmail.text.toString().trim()
             val passInput = editTextTextPass.text.toString().trim()
@@ -99,7 +98,8 @@ class LoginActivity : AppCompatActivity() {
 
         imageViewClipBoard.setOnClickListener {
             setClipboard(baseContext, "sharon_ijgjxre_martina@tfbnw.net") //contraseña: prueba1234
-            baseContext.showToast("Email copiado! \nLa contraseña es: prueba1234")
+            baseContext.showToast("Email copiado en ! \nLa contraseña es: prueba1234")
+            Log.e("click", "imageViewClipBoard?.text.toString()")
         }
     }
 

@@ -35,12 +35,18 @@ class DetailFragment : BaseFragmentList<ItemComic>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setButtomModeBack(true)
         loadDataFirst()
         populateView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setButtomModeBack(true)
+    }
+
     private fun populateView() {
-        showButtonExit()
+        setButtomModeBack(true)
         Glide.with(imageViewAvatarCharacterDetail.context)
             .load("${comic.thumbnail.path}.${comic.thumbnail.extension}")
             .placeholder(R.drawable.ic_marvel)

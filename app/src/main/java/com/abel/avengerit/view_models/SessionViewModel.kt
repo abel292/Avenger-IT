@@ -38,6 +38,12 @@ class SessionViewModel(
         }
     }
 
+    fun logout() {
+        viewModelScope.launch {
+            firebaseRepository.signOut()
+        }
+    }
+
     fun isUserInLog() {
         viewModelScope.launch {
             firebaseRepository.sessionActive().collect {

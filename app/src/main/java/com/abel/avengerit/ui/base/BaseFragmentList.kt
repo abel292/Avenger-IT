@@ -1,6 +1,5 @@
 package com.abel.avengerit.ui.base
 
-import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +16,10 @@ abstract class BaseFragmentList<T> : Fragment() {
     var attempts = 0
     val more = 15
 
-    fun showButtonExit() {
+    fun setButtomModeBack(modeBack: Boolean) {
         activity?.let {
             val main = it as MainActivity
-            main.setIconExit(true)
+            main.setActionButtonToolbar(modeBack)
         }
     }
 

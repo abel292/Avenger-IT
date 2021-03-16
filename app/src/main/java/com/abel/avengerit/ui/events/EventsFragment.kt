@@ -39,6 +39,11 @@ class EventsFragment : BaseFragmentList<Event>(), OnLoadMoreListener {
         init()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setButtomModeBack(false)
+    }
+
     private fun init() {
         if (!loadedList) {
             itemLoadeds = ArrayList()

@@ -20,4 +20,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.55" />
 
+    <ImageView
+        android:id="@+id/imageViewExit"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTitleToolbar"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTitleToolbar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewTitleToolbar"
+        app:srcCompat="@drawable/ic_cancel" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

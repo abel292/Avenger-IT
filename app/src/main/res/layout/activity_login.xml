@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/toolbar"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:padding="10dp"
     app:layoutDescription="@xml/activity_login_scene"
     tools:context=".ui.login.LoginActivity">
 
@@ -29,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/registrarse"
+        android:background="?attr/selectableItemBackground"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -42,18 +42,16 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/email"
-        android:textColorHint="@color/white"
-        android:textCursorDrawable="@drawable/shape_coursor"
+        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/editTextTextEmail"
-            style="@style/EditTextMarvel"
+            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_border"
             android:ems="10"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -66,18 +64,15 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/password"
-        android:textColorHint="@color/white"
-        android:textCursorDrawable="@drawable/shape_coursor"
+        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayouEmail">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/editTextTextPass"
-            style="@style/EditTextMarvel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_border"
             android:ems="10"
             android:inputType="textPassword"
             android:textColorHint="@color/white" />
@@ -92,20 +87,18 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:animateLayoutChanges="true"
+        android:backgroundTint="@color/white"
         android:hint="@string/password_repeat"
-        android:textColorHint="@color/white"
-        android:textCursorDrawable="@drawable/shape_coursor"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayouPass">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/editTextTextPassRepeat"
-            style="@style/EditTextMarvel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_border"
+            android:backgroundTint="@color/white"
             android:ems="10"
             android:inputType="textPassword"
             android:textColorHint="@color/white" />
@@ -117,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:background="@color/cardview_shadow_start_color"
+        android:background="?attr/selectableItemBackground"
         android:text="@string/entrar"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/buttonFacebook"
@@ -151,6 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:text="@string/registrarse"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintBottom_toTopOf="@+id/buttonFacebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

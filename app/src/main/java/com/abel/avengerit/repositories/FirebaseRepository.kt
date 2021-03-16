@@ -38,18 +38,19 @@ class FirebaseRepository(
                         .addOnCompleteListener { task ->
                             when {
                                 task.exception != null -> {
+                                    resourse.message = task.exception?.message.toString()
                                     resourse.responseAction = BAD
-                                    cont.cancel(null)
                                 }
                                 task.isCanceled -> {
+                                    resourse.message = task.exception?.message.toString()
                                     resourse.responseAction = CANCEL
-                                    cont.cancel()
                                 }
                                 task.isSuccessful -> {
                                     resourse.responseAction = SUCCESS
                                     resourse.resourceObject = firebaseAuth.currentUser?.toSessionEntity()
                                 }
                                 else -> {
+                                    resourse.message = task.exception?.message.toString()
                                     resourse.responseAction = BAD
                                 }
                             }
@@ -145,7 +146,8 @@ class FirebaseRepository(
         }
     }
 
-    fun signOut() {
+    suspend fun signOut() {
+        database.sessionDao().clearTable()
         firebaseAuth.signOut()
         LoginManager.getInstance().logOut()
     }
